@@ -5,7 +5,7 @@ import { Transport, MicroserviceOptions } from '@nestjs/microservices';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // Connect microservices through Redis
+  
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.REDIS,
     options: {
@@ -15,6 +15,11 @@ async function bootstrap() {
   });
 
   await app.startAllMicroservices();
+    app.enableCors({
+    origin: ["http://localhost:5173"], 
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true,
+  });
   await app.listen(3000);
   console.log('API Gateway running on port 3000 🚀');
 }
