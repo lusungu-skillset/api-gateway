@@ -11,8 +11,6 @@ async function bootstrap() {
   app.enableCors({
     origin: [
       'http://localhost:5173',
-      'http://192.168.6.128:5173',
-      'http://localhost:3000',
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS', 'HEAD'],
     allowedHeaders: [
@@ -29,33 +27,7 @@ async function bootstrap() {
     optionsSuccessStatus: 204
   });
 
-  // Add manual CORS middleware as backup
-  app.use((req, res, next) => {
-    const allowedOrigins = [
-      'http://localhost:5173',
-      'http://192.168.6.128:5173',
-      'http://localhost:3000'
-    ];
-    
-    const origin = req.headers.origin;
-    
-    if (origin && allowedOrigins.includes(origin)) {
-      res.header('Access-Control-Allow-Origin', origin);
-    }
-    
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS, HEAD');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Accept, X-Requested-With, Origin');
-    res.header('Access-Control-Allow-Credentials', 'true');
-    
-    if (req.method === 'OPTIONS') {
-      return res.status(204).send();
-    }
-    
-    next();
-  });
-
-  await app.listen(3000, '0.0.0.0');
-  logger.log('API Gateway running on http://0.0.0.0:3000');
-  logger.log('CORS enabled for: http://localhost:5173, http://192.168.6.128:5173');
+  await app.listen(3000);
+  logger.log('CORS enabled for: http://localhost:5173');
 }
 bootstrap();
