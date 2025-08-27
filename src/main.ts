@@ -14,12 +14,6 @@ async function bootstrap() {
     },
   });
 
-  await app.startAllMicroservices();
-    app.enableCors({
-    origin: ["http://localhost:5173"], 
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    credentials: true,
-  });
   await app.listen(3000);
   console.log('API Gateway running on port 3000 🚀');
 }
